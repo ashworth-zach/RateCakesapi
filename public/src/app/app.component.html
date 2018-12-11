@@ -1,0 +1,55 @@
+
+<fieldset>
+  <form (submit) = "onSubmit()" class="postForm">
+    <p>{{newCake | json}}</p>
+    <label>Cake name:
+      <input type="text" name="name" [(ngModel)]="newCake.name"  />
+    </label>
+    <label>Cake url:
+      <input type="text" name="url"[(ngModel)]="newCake.url"  />
+    </label>
+    <label>Cake stars:
+      <input type="text" name="stars"[(ngModel)]="newCake.stars" />
+    </label>
+    <input type="submit" value="Create cake" />
+  </form>
+</fieldset>
+<h1><button (click)="tasksOnClick()">click me to get some tasks</button></h1>
+<h2>The Cake: </h2>
+<p>{{tasks['data']}}</p>
+<input (keyup)="taskOnClick($event)">
+
+<div *ngFor="let x of tasks['data']">
+ <p><a href="/cake/{{x['_id']}}">{{x['_id']}}:</a> {{x['name']}} </p>
+ <img src="{{x['url']}}" alt="{{x['name']}}">
+ <form (submit) = "onDelete(x._id)" class="postForm">
+    <input type="submit" value="DELETE" />
+</form>
+<button (click)='showOne(x._id)'>show</button>
+<div *ngIf="x._comment">
+    <p *ngFor='let y of x._comment'>{{y.content}}</p>
+  </div>
+<form (submit) = "editOnClick(x)" class="postForm">
+  <input type="submit" value="EDIT" />
+</form>
+<div *ngIf="x.showEditForm">
+  <form (submit) = "postComment(x._id)" class="postForm">
+      <p>{{newComment | json}}</p>
+      <label>content:
+        <input type="text" name="content" [(ngModel)]="newComment.content"  />
+      </label>
+      <input type="submit" value="comment" />
+    </form>
+  <form (submit) = "onEdit(x)" class="postForm">
+    {{x.name}}
+    <label>Title:
+      <input type="text" name="editTask.name" [(ngModel)] = "x.name" />
+    </label>
+    <label>Description:
+      <input type="text" name="editTask.url" [(ngModel)] = "x.url" />
+    </label>
+    <input type="submit" value="EDIT" />
+  </form>
+</div>
+</div>
+<app-task [showOne]='task'></app-task>
